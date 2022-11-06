@@ -26,7 +26,8 @@ const Home: React.FC<HomeProps> = ({ initialData, word }) => {
     if (word) {
       selectWord(word);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [word]);
 
   const onSelectWordList = () => setSelectedTab("Word List");
   const onSelectFavorites = () => setSelectedTab("Favorites");
@@ -83,7 +84,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   return {
     props: {
       initialData: data,
-      word,
+      word: word ?? "",
     },
   };
 };

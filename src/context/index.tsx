@@ -1,5 +1,11 @@
 import { useRouter } from "next/router";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface ContextProps {
   selectedWord: string;
@@ -46,19 +52,26 @@ export const WordContextProvider: React.FC<WordContextProviderProps> = ({
 
   const router = useRouter();
 
-  const selectWord = (word: string) => {
-    if (!historyWords.some((item) => item === word)) {
-      setHistoryWords([...historyWords, word]);
-      sessionStorage.setItem(
-        "@Dictionary:history",
-        JSON.stringify([...historyWords, word])
-      );
-    }
-    router.query.word = word;
-    router.push(router);
+  const selectWord = useCallback(
+    (word: string) => {
+      if (!historyWords.some((item) => item === word)) {
+        setHistoryWords([...historyWords, word]);
+        sessionStorage.setItem(
+          "@Dictionary:history",
+          JSON.stringify([...historyWords, word])
+        );
+      }
+      if (word !== "") {
+        router.query.word = word;
+        router.push(router);
+      } else {
+        router.push("/");
+      }
 
-    setSelectedWord(word);
-  };
+      setSelectedWord(word);
+    },
+    [historyWords, router]
+  );
 
   return (
     <WordContext.Provider
