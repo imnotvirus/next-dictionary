@@ -5,23 +5,30 @@ import { useWordContext } from "../../context";
 import { Word, WordListContainer } from "../../styles/components/wordlist";
 interface WordListProps {
   mode: "Word List" | "Favorites" | "History";
+  initialList?: item[];
 }
 
-interface item {
+export interface item {
   id: string;
   word: string;
 }
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const PAGE_SIZE = 151;
-const WordList: React.FC<WordListProps> = ({ mode }) => {
+const WordList: React.FC<WordListProps> = ({ mode, initialList }) => {
   const { selectWord, selectedWord, history, favorites } = useWordContext();
 
   const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
-    (index) => `/api/supabase?page=${index + 1}`,
+    (index) => `/api/supabase?page=${index + 2}`,
     fetcher
   );
 
-  const WordList: item[] = data ? [].concat(...data) : [];
+  const WordList: item[] = initialList
+    ? data
+      ? initialList.concat(...data)
+      : initialList
+    : data
+    ? [].concat(...data)
+    : [];
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
     isLoadingInitialData ||

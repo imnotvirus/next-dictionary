@@ -1,7 +1,9 @@
+import { GetStaticProps } from "next";
 import React, { useState } from "react";
 import Player from "../components/player";
-import WordList from "../components/wordList";
+import WordList, { item } from "../components/wordList";
 import { useWordContext } from "../context";
+import { supabase } from "../libs/supabase";
 import {
   Container,
   Main,
@@ -10,7 +12,11 @@ import {
   TabContainer,
 } from "../styles/pages/home";
 
-const Home: React.FC = () => {
+interface HomeProps {
+  initialData: item[];
+}
+
+const Home: React.FC<HomeProps> = ({ initialData }) => {
   const [selectedTab, setSelectedTab] = useState<
     "Word List" | "Favorites" | "History"
   >("Word List");
@@ -47,11 +53,23 @@ const Home: React.FC = () => {
               History
             </TabButton>
           </TabContainer>
-          <WordList mode={selectedTab} />
+          <WordList initialList={initialData} mode={selectedTab} />
         </MenuContainer>
       </Container>
     </Main>
   );
 };
-
 export default Home;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const { data, error } = await supabase
+    .from("wordlist")
+    .select("*")
+    .range(0, 150);
+
+  return {
+    props: {
+      initialData: data,
+    },
+  };
+};
