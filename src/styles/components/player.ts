@@ -40,6 +40,37 @@ export const Main = styled("div", {
   },
 });
 
+export const ButtonClose = styled("button", {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  background: "transparent",
+  border: "none",
+  cursor: "pointer",
+  color: "$gray100",
+  padding: 10,
+  "&:focus": {
+    outline: "none",
+  },
+  "@md": {
+    display: "none",
+  },
+});
+
+export const ButtonFavorite = styled("button", {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  background: "transparent",
+  border: "none",
+  cursor: "pointer",
+  color: "$gray100",
+  padding: 10,
+  "&:focus": {
+    outline: "none",
+  },
+});
+
 export const Display = styled("div", {
   position: "relative",
 
@@ -57,24 +88,6 @@ export const Display = styled("div", {
   },
   span: {
     fontSize: "$lg",
-  },
-  button: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    background: "transparent",
-    border: "none",
-    cursor: "pointer",
-    color: "$gray100",
-    padding: 10,
-    "&:focus": {
-      outline: "none",
-    },
-  },
-  "@md": {
-    button: {
-      display: "none",
-    },
   },
 });
 

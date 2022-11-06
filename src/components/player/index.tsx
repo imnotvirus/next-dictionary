@@ -1,8 +1,10 @@
-import { X } from "phosphor-react";
+import { Star, X } from "phosphor-react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useWordContext } from "../../context";
 import { useApi } from "../../libs/api";
 import {
+  ButtonClose,
+  ButtonFavorite,
   Description,
   Display,
   Main,
@@ -44,7 +46,8 @@ interface License {
   url: string;
 }
 const Player: React.FC = () => {
-  const { selectedWord, selectWord } = useWordContext();
+  const { selectedWord, selectWord, favorites, handleFavorite } =
+    useWordContext();
   const [index, setIndex] = useState(0);
 
   const { data, error, loading } = useApi<Response>(selectedWord);
@@ -72,12 +75,21 @@ const Player: React.FC = () => {
     }
   }, [data]);
 
+  const isFavorite = data && favorites.some((item) => item === data.word);
+
   return (
     <Main>
       <Display>
-        <button onClick={() => selectWord("")}>
+        <ButtonClose onClick={() => selectWord("")}>
           <X size={30} />
-        </button>
+        </ButtonClose>
+        <ButtonFavorite onClick={() => handleFavorite(data.word)}>
+          <Star
+            size={30}
+            color={isFavorite ? "#f2ff0c" : "white"}
+            weight={isFavorite ? "fill" : "regular"}
+          />
+        </ButtonFavorite>
         <strong>
           {loading ? "Carregando" : error ? "word not found" : data.word}
         </strong>

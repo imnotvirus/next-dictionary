@@ -4,6 +4,8 @@ interface ContextProps {
   selectedWord: string;
   selectWord: (word: string) => void;
   history: string[];
+  handleFavorite: (item: string) => void;
+  favorites: string[];
 }
 
 const WordContext = createContext({} as ContextProps);
@@ -16,9 +18,26 @@ export const WordContextProvider: React.FC<WordContextProviderProps> = ({
 }) => {
   const [selectedWord, setSelectedWord] = useState("");
   const [historyWords, setHistoryWords] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  const handleFavorite = (item: string) => {
+    if (favorites.includes(selectedWord)) {
+      const temp = favorites.filter((word) => word !== item);
+      localStorage.setItem("@Dictionary:favorites", JSON.stringify(temp));
+      setFavorites(temp);
+    } else {
+      const temp = [...favorites, item];
+      localStorage.setItem("@Dictionary:favorites", JSON.stringify(temp));
+      setFavorites(temp);
+    }
+  };
 
   useEffect(() => {
     const history = sessionStorage.getItem("@Dictionary:history");
+    const storageFavorites = localStorage.getItem("@Dictionary:favorites");
+    if (storageFavorites) {
+      setFavorites(JSON.parse(storageFavorites));
+    }
     if (history) {
       setHistoryWords(JSON.parse(history));
     }
@@ -37,7 +56,13 @@ export const WordContextProvider: React.FC<WordContextProviderProps> = ({
 
   return (
     <WordContext.Provider
-      value={{ selectedWord, selectWord, history: historyWords }}
+      value={{
+        selectedWord,
+        selectWord,
+        history: historyWords,
+        favorites,
+        handleFavorite,
+      }}
     >
       {children}
     </WordContext.Provider>

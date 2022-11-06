@@ -14,7 +14,7 @@ interface item {
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const PAGE_SIZE = 151;
 const WordList: React.FC<WordListProps> = ({ mode }) => {
-  const { selectWord, selectedWord, history } = useWordContext();
+  const { selectWord, selectedWord, history, favorites } = useWordContext();
 
   const { data, error, mutate, size, setSize, isValidating } = useSWRInfinite(
     (index) => `/api/supabase?page=${index + 1}`,
@@ -91,7 +91,21 @@ const WordList: React.FC<WordListProps> = ({ mode }) => {
             </Word>
           ))}
         </>
-      ) : null}
+      ) : (
+        <>
+          {favorites.map((item) => (
+            <Word
+              key={item}
+              onClick={() => {
+                selectWord(item);
+              }}
+              selected={selectedWord === item}
+            >
+              {item}
+            </Word>
+          ))}
+        </>
+      )}
     </WordListContainer>
   );
 };

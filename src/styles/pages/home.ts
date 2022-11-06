@@ -20,6 +20,9 @@ export const Container = styled("div", {
   gap: "2rem",
   "@sm": {
     flexDirection: "row",
+    height: "calc(100vh - 150px)",
+    alignItems: "unset",
+    flex: "none",
   },
 });
 export const TabButton = styled("button", {
@@ -52,4 +55,5 @@ export const MenuContainer = styled("div", {
   display: "flex",
   flex: 1,
   flexDirection: "column",
+  alignSelf: "baseline",
 });
