@@ -45,12 +45,18 @@ interface License {
   name: string;
   url: string;
 }
-const Player: React.FC = () => {
+
+interface PlayerProps {
+  word?: string;
+}
+const Player: React.FC<PlayerProps> = ({ word }) => {
   const { selectedWord, selectWord, favorites, handleFavorite } =
     useWordContext();
   const [index, setIndex] = useState(0);
 
-  const { data, error, loading } = useApi<Response>(selectedWord);
+  const search = selectedWord ? selectedWord : word;
+
+  const { data, error, loading } = useApi<Response>(search);
 
   const phonetic = useMemo(() => {
     const response =

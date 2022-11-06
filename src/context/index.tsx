@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface ContextProps {
@@ -43,6 +44,8 @@ export const WordContextProvider: React.FC<WordContextProviderProps> = ({
     }
   }, []);
 
+  const router = useRouter();
+
   const selectWord = (word: string) => {
     if (!historyWords.some((item) => item === word)) {
       setHistoryWords([...historyWords, word]);
@@ -51,6 +54,9 @@ export const WordContextProvider: React.FC<WordContextProviderProps> = ({
         JSON.stringify([...historyWords, word])
       );
     }
+    router.query.word = word;
+    router.push(router);
+
     setSelectedWord(word);
   };
 

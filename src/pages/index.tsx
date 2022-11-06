@@ -1,5 +1,5 @@
-import { GetStaticProps } from "next";
-import React, { useState } from "react";
+import { GetServerSideProps } from "next";
+import React, { useEffect, useState } from "react";
 import Player from "../components/player";
 import WordList, { item } from "../components/wordList";
 import { useWordContext } from "../context";
@@ -14,13 +14,20 @@ import {
 
 interface HomeProps {
   initialData: item[];
+  word?: string;
 }
 
-const Home: React.FC<HomeProps> = ({ initialData }) => {
+const Home: React.FC<HomeProps> = ({ initialData, word }) => {
   const [selectedTab, setSelectedTab] = useState<
     "Word List" | "Favorites" | "History"
   >("Word List");
-  const { selectedWord } = useWordContext();
+  const { selectedWord, selectWord } = useWordContext();
+  useEffect(() => {
+    if (word) {
+      selectWord(word);
+    }
+  }, []);
+
   const onSelectWordList = () => setSelectedTab("Word List");
   const onSelectFavorites = () => setSelectedTab("Favorites");
   const onSelectHistory = () => setSelectedTab("History");
@@ -61,7 +68,13 @@ const Home: React.FC<HomeProps> = ({ initialData }) => {
 };
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  req,
+  res,
+}) => {
+  const { word } = query;
+
   const { data, error } = await supabase
     .from("wordlist")
     .select("*")
@@ -70,6 +83,7 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       initialData: data,
+      word,
     },
   };
 };

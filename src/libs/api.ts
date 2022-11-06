@@ -7,7 +7,7 @@ const api = axios.create({
 const fetch = (url: string) => api.get(url).then(({ data }) => data[0]);
 
 export function useApi<T = any>(
-  url: string
+  url?: string
 ): {
   loading: boolean;
   data: T;
