@@ -76,7 +76,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 ## :white_check_mark: Pré requisitos ##
 
 Antes de começar :checkered_flag:, você precisa ter o [Git](https://git-scm.com) e o [Node](https://nodejs.org/en/) instalados em sua maquina.
-
+Criar uma conta no Supabase, criar uma lista de palavras com ids únicos, colocar no .env (da forma que está no .env.example) a base url e a key. 
+MUITO IMPORTANTE!!!! O NOME DA TABELA TEM QUE SER wordlist (OU ENTÃO VOCÊ PODE ALTERAR NO ARQUIVO /src/pages/api/supabase.ts)
 ## :checkered_flag: Começando ##
 
 ```bash
@@ -104,6 +105,9 @@ Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para m
 
 
 Feito com :heart: por <a href="https://github.com/imnotvirus" target="_blank">Luiz Claudio</a>
+
+>  This is a challenge by [Coodesh](https://coodesh.com/)
+
 
 &#xa0;
 
