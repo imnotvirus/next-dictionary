@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import Player from "../components/player";
 import WordList, { item } from "../components/wordList";
@@ -35,6 +36,9 @@ const Home: React.FC<HomeProps> = ({ initialData, word }) => {
 
   return (
     <Main>
+      <Head>
+        <title>Dictionary</title>
+      </Head>
       <header>
         <h1>Dictionary</h1>
       </header>

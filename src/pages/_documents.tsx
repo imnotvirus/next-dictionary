@@ -3,9 +3,14 @@ import { getCssText } from "../styles";
 
 export default function Document() {
   return (
-    <Html>
+    <Html lang="en">
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
+
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/icon.png"></link>
+        <meta name="theme-color" content="#fff" />
+
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
