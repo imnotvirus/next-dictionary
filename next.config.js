@@ -8,5 +8,5 @@ const nextConfig = {
   swcMinify: true,
 };
 module.exports = withPWA({
-  nextConfig,
+  // setting
 });
